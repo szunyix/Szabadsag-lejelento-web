@@ -1,0 +1,116 @@
+openapi: 3.0.3 # version of the specification
+info:
+  version: '1'
+  title: Freedom Report Api
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /FreedomReport:
+    get:
+      summary: return a simple Freedom report
+      operationId: getFreedomReporting
+      tags:
+        - FreedomReport
+      responses:
+        200:
+          description: General freedom
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreedomReporting'
+
+  /FreedomReport/all:
+    get:
+      summary: return all Freedom report
+      operationId: getFreedomReportingList
+      tags:
+        - FreedomReport
+      responses:
+        200:
+          description: all Freedom
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreedomReportingList'
+
+  /FreedomReport/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required:
+          true
+        description: "Id"
+        example: "1"
+    get:
+      description: return a Freedom with id
+      operationId: getFreedomReportingById
+      tags:
+        - FreedomReport
+      responses:
+        200:
+          description: Personal Freedom
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreedomReporting'
+
+  /FreedomReport/read:
+    get:
+      description: Read Freedom into file
+      operationId: getReadFreedom
+      tags:
+        - FreedomReport
+      parameters:
+        - in: query
+          name: freedomReporting
+          schema:
+            $ref: '#/components/schemas/FreedomReporting'
+      responses:
+        200:
+          description: Personal Freedom
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreedomReporting'
+
+  /FreedomReport/print:
+    post:
+      description: Print Freedom into file
+      operationId: PrintFreedomReporting
+      tags:
+        - FreedomReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreedomReporting'
+      responses:
+        201:
+          description: Created
+
+components:
+  schemas:
+    FreedomReporting:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        name:
+          type: string
+          example: Arthur Dent
+        dates:
+          type: array
+          items:
+            type: string
+    FreedomReportingList:
+      type: array
+      items:
+        $ref: '#/components/schemas/FreedomReporting'
+
+

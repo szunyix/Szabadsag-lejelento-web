@@ -14,7 +14,7 @@ var TempFileData;  //amikor beloginol ki kéne szedni a doksiból az adatait glo
 let FreedomFunctionOneLoad;
 
 async function loginUser() {
-    const myResponse = await fetch('http://localhost:8080/OpenReport');
+    const myResponse = await fetch('http://localhost:8080/FreedomReport/1'); //az egyes ID beégetett , login után ide kéne kapnija az ID-t
     const myJson = await myResponse.json();
     document.getElementById("UserLogin").innerHTML = "Bejeletkezve : " + myJson.name;
     TempFileData = myJson;
@@ -109,14 +109,15 @@ function TableGetData(date) {
 
 function writeFile() {  //Save
     // good list :
-    let Json_list = {id: 11, name: "user", dates: data_list};
-    fetch('http://localhost:8080/PrintReport', {
+    let Json_list = {id: 1, name: "Dávid", dates: data_list};
+    fetch('http://localhost:8080/FreedomReport/print', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(Json_list),
-    }).then(r => "")
+    }).then(r => "");
+    console.log(data_list)
 
     /*.then(response => response.json())
     .then(data => {
@@ -129,13 +130,14 @@ function writeFile() {  //Save
 }
 
 function OpenFile() {
-    fetch('http://localhost:8080/OpenReport').then(response => response.json().then(userHoliday => console.log(userHoliday)))
+    fetch('http://localhost:8080/FreedomReport/read').then(response => response.json().then(userHoliday => console.log(userHoliday)))
 }
 
 //csak az utolsó elem évére és hónapjára listázzuk ki a szabadságokat a file-bol
 const freedomDisplay = async () => {
-    const myResponse = await fetch('http://localhost:8080/OpenReport');
+    const myResponse = await fetch('http://localhost:8080/FreedomReport/'+TempFileData.id);
     const myJson = await myResponse.json();
+
     document.getElementById("UserLogin").innerHTML = "Üdvözlöm kedves : " + myJson.name;
     document.getElementById("greetings").innerHTML = "A szabadsága az alábbi naptárban látható : ";
 
